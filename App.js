@@ -1,6 +1,10 @@
 import React from "react";
-import { AppView } from "./src/AppView.component";
+import { Provider } from 'react-redux'
+import { createStore } from 'redux'
+import rootReducer from './src/reducers'
+import { AppView } from "./src/components/appView.component";
 
+const store = createStore(rootReducer)
 export default class App extends React.Component {
   constructor(props) {
     super(props);
@@ -18,7 +22,9 @@ export default class App extends React.Component {
       return <Expo.AppLoading />;
     }
     return (
-      <AppView/>
+      <Provider store={store}>
+        <AppView/>
+      </Provider>
     );
   }
 }
