@@ -4,17 +4,16 @@ import {
   Container,
   Header,
   Title,
-  Content,
-  Footer,
-  FooterTab,
   Button,
   Left,
   Right,
   Body,
-  Icon,
-  Text
+  Icon
 } from "native-base";
 import PaymentsList from "../containers/paymentsList.container";
+import FloatingButton from "../containers/floatinButton.container";
+import GraphCard from "../containers/graphCard.container";
+
 export default class AppView extends Component {
   render() {
     return (
@@ -30,16 +29,11 @@ export default class AppView extends Component {
           </Body>
           <Right />
         </Header>
-        <Content>
+        <Container >
+          <GraphCard />
           <PaymentsList />
-        </Content>
-        <Footer>
-          <FooterTab>
-            <Button full>
-              <Text>Footer</Text>
-            </Button>
-          </FooterTab>
-        </Footer>
+          <FloatingButton /> 
+        </Container>
       </Container>
     );
   }
