@@ -1,5 +1,10 @@
 # Mind Money
 
+## Screenshot
+![alt text][logo]
+
+[logo]: /images/screenshot.jpg "Screenshot"
+
 ## Purpose
 
 "Mind Money" is a simple expense tracking application. At a core it is my attempt to mind my expenses as well as learn React Native and its underlying technologies.
