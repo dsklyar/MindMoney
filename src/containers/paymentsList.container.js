@@ -1,25 +1,26 @@
 import React, { Component } from "react";
-import { Container, Header, Content, List, ListItem, Text } from "native-base";
+import { Container, Content, List, ListItem, Text, Right, Body, Left, Icon } from "native-base";
 import { connect } from "react-redux";
 
 class PaymentsList extends Component {
-  renderList() {
-    console.log(this.props.payments);
-    return this.props.payments.map(payment => {
-      <ListItem>
-        <Text>{payment.amount}</Text>
-      </ListItem>;
-    });
-  }
   render() {
     return (
       <Container>
         <Content>
           <List
-            dataArray={this.props.payments}
+            dataArray={ this.props.payments }
             renderRow={payment => (
-              <ListItem>
-                <Text>{payment.amount}</Text>
+              <ListItem avatar>
+                <Left>
+                  <Icon type="Foundation" name='dollar' />
+                </Left>
+                <Body>
+                  <Text>{ payment.amount }</Text>
+                  <Text note>{ payment.comment }</Text>
+                </Body>
+                <Right>
+                  <Text note>{ payment.date.toLocaleDateString("en-US") }</Text>
+                </Right>
               </ListItem>
             )}
           />
