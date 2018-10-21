@@ -14,7 +14,6 @@ class PaymentsList extends Component {
   render() {
     return (
       <Container>
-        <Header />
         <Content>
           <List
             dataArray={this.props.payments}

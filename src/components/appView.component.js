@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { StyleSheet } from "react-native";
+import { StyleSheet, StatusBar } from "react-native";
 import {
   Container,
   Header,
@@ -45,5 +45,9 @@ export default class AppView extends Component {
   }
 }
 const styles = StyleSheet.create({
-  container: {}
+  // TODO:
+  // Figure out how to do this on ios
+  container: {
+    marginTop: StatusBar.currentHeight //prevent from the StatusBar on Android to overlapp with UI
+  }
 });
