@@ -1,8 +1,8 @@
-import { combineReducers } from 'redux';
-import todos from './todo.reducer';
-import visibilityFilter from './visibilityFilter.reducer';
+import { combineReducers } from "redux";
+import payments from "./payments.reducer";
 
-export default combineReducers({
-  todos,
-  visibilityFilter
-})
+const rootReducer = combineReducers({
+  payments: payments
+});
+
+export default rootReducer;

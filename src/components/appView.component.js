@@ -1,14 +1,28 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
 import { StyleSheet } from "react-native";
-import { Container, Header, Title, Content, Footer, FooterTab, Button, Left, Right, Body, Icon, Text } from 'native-base';
-export class AppView extends Component {
+import {
+  Container,
+  Header,
+  Title,
+  Content,
+  Footer,
+  FooterTab,
+  Button,
+  Left,
+  Right,
+  Body,
+  Icon,
+  Text
+} from "native-base";
+import PaymentsList from "../containers/paymentsList.container";
+export default class AppView extends Component {
   render() {
     return (
       <Container style={styles.container}>
         <Header>
           <Left>
             <Button transparent>
-              <Icon name='menu' />
+              <Icon name="menu" />
             </Button>
           </Left>
           <Body>
@@ -17,9 +31,7 @@ export class AppView extends Component {
           <Right />
         </Header>
         <Content>
-          <Text>
-            This is Content Section
-          </Text>
+          <PaymentsList />
         </Content>
         <Footer>
           <FooterTab>
@@ -33,6 +45,5 @@ export class AppView extends Component {
   }
 }
 const styles = StyleSheet.create({
-  container: {
-  }
+  container: {}
 });
