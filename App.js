@@ -2,7 +2,7 @@ import React from "react";
 import { Provider } from "react-redux";
 import { createStore } from "redux";
 import rootReducer from "./src/reducers/index";
-import AppView from "./src/components/appView.component";
+import AppRouter from "./AppRouter";
 
 const store = createStore(rootReducer);
 export default class App extends React.Component {
@@ -23,7 +23,7 @@ export default class App extends React.Component {
     }
     return (
       <Provider store={store}>
-        <AppView />
+        <AppRouter />
       </Provider>
     );
   }
