@@ -28,5 +28,6 @@
 * redux-react
 * native-base
 * react-native-router-flux
+* redux-persist
 
 

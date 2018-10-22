@@ -5,14 +5,17 @@ const def = [
 ];
 
 const payments = (state = def, action) => {
+  console.log(action);
   switch(action.type) {
     case "SAVE_PAYMENT": {
+      console.log("save?")
       return [
         ...state,
         action.payload
       ];
     }
     default: {
+      console.log("return?")
       return state;
     }
   }

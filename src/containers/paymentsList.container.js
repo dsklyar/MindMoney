@@ -29,7 +29,7 @@ class PaymentsList extends Component {
                   <Text note>{payment.comment}</Text>
                 </Body>
                 <Right>
-                  <Text note>{payment.date.toLocaleDateString("en-US")}</Text>
+                  <Text note>{new Date(payment.date).toLocaleDateString("en-US")}</Text>
                 </Right>
               </ListItem>
             )}
