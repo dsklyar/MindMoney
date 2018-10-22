@@ -10,7 +10,10 @@ export default class FloatingButton extends Component {
         direction="up"
         style={styles.fab}
         position="bottomRight"
-        onPress={() => {Actions.jump("paymentForm")}}>
+        onPress={() => {
+          Actions.paymentForm();
+        }}
+      >
         <Icon name="add" />
       </Fab>
     );

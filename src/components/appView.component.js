@@ -29,10 +29,10 @@ export default class AppView extends Component {
           </Body>
           <Right />
         </Header>
-        <Container >
+        <Container>
           <GraphCard />
           <PaymentsList />
-          <FloatingButton /> 
+          <FloatingButton />
         </Container>
       </Container>
     );

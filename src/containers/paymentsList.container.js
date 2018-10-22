@@ -1,5 +1,15 @@
 import React, { Component } from "react";
-import { Container, Content, List, ListItem, Text, Right, Body, Left, Icon } from "native-base";
+import {
+  Container,
+  Content,
+  List,
+  ListItem,
+  Text,
+  Right,
+  Body,
+  Left,
+  Icon
+} from "native-base";
 import { connect } from "react-redux";
 
 class PaymentsList extends Component {
@@ -8,18 +18,18 @@ class PaymentsList extends Component {
       <Container>
         <Content>
           <List
-            dataArray={ this.props.payments }
+            dataArray={this.props.payments}
             renderRow={payment => (
               <ListItem avatar>
                 <Left>
-                  <Icon type="Foundation" name='dollar' />
+                  <Icon type="Foundation" name="dollar" />
                 </Left>
                 <Body>
-                  <Text>{ payment.amount }</Text>
-                  <Text note>{ payment.comment }</Text>
+                  <Text>{payment.amount}</Text>
+                  <Text note>{payment.comment}</Text>
                 </Body>
                 <Right>
-                  <Text note>{ payment.date.toLocaleDateString("en-US") }</Text>
+                  <Text note>{payment.date.toLocaleDateString("en-US")}</Text>
                 </Right>
               </ListItem>
             )}
