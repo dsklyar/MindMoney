@@ -11,7 +11,7 @@ import {
   Icon
 } from "native-base";
 import PaymentsList from "../containers/paymentsList.container";
-import FloatingButton from "../containers/floatinButton.container";
+import FloatingButton from "../containers/floatingButton.container";
 import GraphCard from "../containers/graphCard.container";
 
 export default class AppView extends Component {
