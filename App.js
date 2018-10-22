@@ -5,6 +5,9 @@ import { store, persistor } from "./src/configure/index";
 import AppRouter from "./AppRouter";
 
 
+// TODO:
+// Move this crap into index.js under /src/index.js
+
 export default class App extends React.Component {
   constructor(props) {
     super(props);
@@ -21,6 +24,8 @@ export default class App extends React.Component {
     if (this.state.loading) {
       return <Expo.AppLoading />;
     }
+    // TODO:
+    // Add clearing of the persisted state
     return (
       <Provider store={store}>
         <PersistGate loading={<Expo.AppLoading />} persistor={persistor}>

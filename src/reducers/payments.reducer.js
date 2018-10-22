@@ -1,7 +1,7 @@
+import { SAVE_PAYMENT } from "../actions/types";
 const payments = (state = [], action) => {
-  console.log(action);
   switch(action.type) {
-    case "SAVE_PAYMENT": {
+    case SAVE_PAYMENT: {
       return [
         ...state,
         action.payload
