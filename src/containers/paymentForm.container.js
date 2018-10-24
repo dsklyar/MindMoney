@@ -44,7 +44,7 @@ class PaymentForm extends Component {
   onClickSave() {
     this.props.savePayment({
       amount: this.props.amount,
-      date: new Date(),
+      date: this.props.date,
       comment: this.props.comment
     });
     
