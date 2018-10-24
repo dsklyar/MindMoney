@@ -55,6 +55,7 @@ class PaymentForm extends Component {
         <Item floatingLabel>
           <Label>Amount</Label>
           <Input
+            keyboardType="phone-pad"
             onChangeText={this.onFormChange.bind(this, formMapping.AMOUNT)}
             value={`${this.props.amount}`}
           />
