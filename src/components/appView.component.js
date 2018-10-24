@@ -11,7 +11,7 @@ import {
   Icon
 } from "native-base";
 import PaymentsList from "../containers/paymentsList.container";
-import FloatingButton from "../containers/floatingButton.container";
+import ActionFloating from "../containers/actionFloating.container";
 import GraphCard from "../containers/graphCard.container";
 
 export default class AppView extends Component {
@@ -32,7 +32,7 @@ export default class AppView extends Component {
         <Container>
           <GraphCard />
           <PaymentsList />
-          <FloatingButton />
+          <ActionFloating />
         </Container>
       </Container>
     );

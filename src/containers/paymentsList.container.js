@@ -40,7 +40,7 @@ class PaymentsList extends Component {
   }
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     payments: state.payments
   };

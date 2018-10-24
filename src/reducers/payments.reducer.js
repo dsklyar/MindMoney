@@ -1,4 +1,5 @@
 import { SAVE_PAYMENT } from "../actions/types";
+import { Actions } from "react-native-router-flux";
 const payments = (state = [], action) => {
   // Sanity check here
   if (action.type === undefined) {
@@ -6,10 +7,14 @@ const payments = (state = [], action) => {
   }
   switch(action.type) {
     case SAVE_PAYMENT: {
+      Actions.appView();
       return [
-        ...state,
-        action.payload
+        action.payload,
+        ...state
       ];
+    }
+    case "persist/PURGE": {
+      return [];
     }
     default: {
       return state;

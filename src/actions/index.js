@@ -1,4 +1,4 @@
-import { SAVE_PAYMENT } from "./types";
+import { SAVE_PAYMENT, FORM_UPDATED, DEV_FLOATING_ACTIVE } from "./types";
 
 const savePayment = (payment) => {
   return {
@@ -6,4 +6,21 @@ const savePayment = (payment) => {
     payload: payment
   };
 }
-export { savePayment };
+const formChanged = ({ amount, date, comment }) =>  {
+  console.log("ti");
+  console.log(amount, date, comment);
+  return {
+    type: FORM_UPDATED,
+    payload: {
+      amount,
+      date,
+      comment
+    }
+  };
+}
+const devFloatingActivated = () => {
+  return {
+    type: DEV_FLOATING_ACTIVE
+  };
+}
+export { savePayment, formChanged, devFloatingActivated };
