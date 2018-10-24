@@ -1,4 +1,4 @@
-import { SAVE_PAYMENT } from "../actions/types";
+import { SAVE_PAYMENT, PURGE_PAYMENTS } from "../actions/types";
 import { Actions } from "react-native-router-flux";
 const payments = (state = [], action) => {
   // Sanity check here
@@ -13,7 +13,7 @@ const payments = (state = [], action) => {
         ...state
       ];
     }
-    case "persist/PURGE": {
+    case PURGE_PAYMENTS: {
       return [];
     }
     default: {
