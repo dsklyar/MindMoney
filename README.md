@@ -29,5 +29,6 @@
 * native-base
 * react-native-router-flux
 * redux-persist
+* react-native-chart-kit
 
 
