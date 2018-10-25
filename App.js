@@ -7,7 +7,6 @@ import AppRouter from "./AppRouter";
 
 // TODO:
 // Move this crap into index.js under /src/index.js
-
 export default class App extends React.Component {
   constructor(props) {
     super(props);

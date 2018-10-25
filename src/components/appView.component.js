@@ -25,7 +25,7 @@ export default class AppView extends Component {
             </Button>
           </Left>
           <Body>
-            <Title>Header</Title>
+            <Title>Mind Money</Title>
           </Body>
           <Right />
         </Header>
