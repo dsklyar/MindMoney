@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import { savePayment, formChanged } from "../actions";
+import { savePayment, formChanged, formCleared } from "../actions";
 import { Form, Item, Input, Label, Button, DatePicker, Text } from "native-base";
 
 // I miss TypeScript's enums, moreover I miss C-esque langs
@@ -13,7 +13,6 @@ const formMapping = {
 
 class PaymentForm extends Component {
   onFormChange(type, value) {
-    console.log(value, type);
     switch (type) {
       case formMapping.AMOUNT: {
         this.props.formChanged({
@@ -47,7 +46,7 @@ class PaymentForm extends Component {
       date: this.props.date,
       comment: this.props.comment
     });
-    
+    this.props.formCleared();
   }
   render() {
     return (
@@ -88,9 +87,6 @@ class PaymentForm extends Component {
 }
 
 const mapStateToProps = state => {
-  console.log(state.payments);
-  console.log("dd");
-  console.log(state.paymentForm);
   return {
     amount: state.paymentForm.amount,
     date: state.paymentForm.date,
@@ -111,7 +107,9 @@ const mapDispatchToProps = dispatch => {
       // The VALUE is an actual action, imported at the top, that
       // flows throw all of the redcuers via funnel function 'dispatch'
       savePayment: savePayment,
-      formChanged: formChanged
+      formChanged: formChanged,
+      formCleared: formCleared
+      
     },
     dispatch
   );

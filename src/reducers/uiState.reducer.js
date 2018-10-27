@@ -8,7 +8,6 @@ const INITIAL_STATE = {
 
 const uiState = (state = INITIAL_STATE, action) => {
   // Sanity check here
-  console.log(action.type);
   if (action.type === undefined) {
     throw new Error("UI State reducer recieved an undefined action!");
   }

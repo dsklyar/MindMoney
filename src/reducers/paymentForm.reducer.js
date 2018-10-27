@@ -1,4 +1,4 @@
-import { FORM_UPDATED } from "../actions/types";
+import { FORM_UPDATED, FORM_CLEARED } from "../actions/types";
 
 const INITIAL_STATE = {
   amount: "",
@@ -8,19 +8,20 @@ const INITIAL_STATE = {
 
 const paymentForm = (state = INITIAL_STATE, action) => {
   // Sanity check here
-  console.log(action.type);
   if (action.type === undefined) {
     throw new Error("Payment reducer recieved an undefined action!");
   }
   switch(action.type) {
     case FORM_UPDATED: {
-      console.log(action.payload);
       return {
         ...state,
         amount: action.payload.amount,
         date: action.payload.date,
         comment: action.payload.comment
-      }
+      };
+    }
+    case FORM_CLEARED: {
+      return INITIAL_STATE;
     }
     default: {
       return state;

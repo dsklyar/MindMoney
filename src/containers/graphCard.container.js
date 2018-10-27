@@ -1,7 +1,7 @@
 import React, { Component } from "react";
-import { StyleSheet, Dimensions } from "react-native";
+import { StyleSheet, Dimensions, View } from "react-native";
 // import { Card, CardItem, Body, Text } from "native-base";
-import { LineChart } from 'react-native-chart-kit'
+import { LineChart } from "react-native-chart-kit";
 import { connect } from "react-redux";
 import _ from "lodash";
 
@@ -16,6 +16,7 @@ const DEFAULT_GRAPH_OPERATOR_CONFIG = {
 };
 
 const RANGE_MODE = {
+  WEEKS: "weeks",
   MONTHS: "months",
   DAYS: "days",
   YEARS: "years",
@@ -66,22 +67,29 @@ class GraphOperator {
     }
   }
   _isDate(date) {
+    console.log(date);
     return (new Date(date) !== "Invalid Date") && !isNaN(new Date(date));
   }
+  _getDay(date) {
+    if (this._isDate) {
+      return date.toString().split("T")[0].split("-")[2];
+    }
+  }
 
-  getRange() {
-    let range = {};
-    switch(this.rangeMode) {
+  getConfiguration(rangeMode = this.rangeMode) {
+    const config = {
+      datasets: []
+    };
+    switch(rangeMode) {
       case RANGE_MODE.DAYS: {
-        // Calculate base range
-        range = this.data.reduce((acc, val) => {
-          if (this._isDate(val.date)) {
-            const day = new Date(val.date).getDay();
-            console.log(val.amount);
-            (acc[day]) ?  acc[day] = parseInt(val.amount, 10) : acc[day] = 0;
-          }
+        const lineData = this.data.reduce((acc, val) => {
+          const day = this._getDay(val.date);
+          console.log(day);
+          (_.isNil(acc[day])) ?  acc[day] = parseInt(val.amount, 10) : acc[day] = 0;
           return acc
         }, {});
+        config.labels = Object.keys(lineData);
+        config.datasets.push({ data: Object.values(lineData) });
         break;
       }
       case RANGE_MODE.MONTHS: {
@@ -94,10 +102,8 @@ class GraphOperator {
         break;
       }
     }
-    return range;
-  }
-  getDatasets() {
-
+    console.log("tick", config);
+    return config;
   }
 }
 
@@ -106,43 +112,49 @@ class GraphCard extends Component {
     super(props);
     this.graphOperator = new GraphOperator(this.props.payments);
   }
+  // componentWillUpdate() {
+  //   console.log("updated");
+  //   this.graphOperator = new GraphOperator(this.props.payments);
+  // }
   getLabels() {
-    const range = this.graphOperator.getRange();
-    console.log(range);
-    return range;
+    return this.graphOperator.getConfiguration();
   }
   render() {
-    console.log(this.getLabels());
+    this.getLabels();
     return (
       <LineChart
-        data={{
-          labels: [
-            "January",
-            "February",
-            "March",
-            "April",
-            "May",
-            "June"
-          ],
-          datasets: [
-            {
-              data: [
-                Math.random() * 100,
-                Math.random() * 100,
-                Math.random() * 100,
-                Math.random() * 100,
-                Math.random() * 100,
-                Math.random() * 100
-              ]
-            }
-          ]
-        }}
-        width={phoneDimensions.width} // from react-native
-        height={phoneDimensions.height / 3}
+      // data={{
+      //   labels: ['January', 'February', 'March', 'April', 'May', 'June'],
+      //   datasets: [{
+      //     data: [
+      //       Math.random() * 100,
+      //       Math.random() * 100,
+      //       Math.random() * 100,
+      //       Math.random() * 100,
+      //       Math.random() * 100,
+      //       Math.random() * 100
+      //     ]
+      //   }]
+      // }}
+      data={this.getLabels()}
+      width={Dimensions.get('window').width} // from react-native
+      height={220}
+      chartConfig={{
+        backgroundColor: '#e26a00',
+        backgroundGradientFrom: '#fb8c00',
+        backgroundGradientTo: '#ffa726',
+        decimalPlaces: 2, // optional, defaults to 2dp
+        color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
+        style: {
+          borderRadius: 16
+        }
+      }}
+        width={Dimensions.get('window').width} // from react-native
+        height={220}
         chartConfig={{
-          backgroundColor: "#e26a00",
-          backgroundGradientFrom: "#fb8c00",
-          backgroundGradientTo: "#ffa726",
+          backgroundColor: '#e26a00',
+          backgroundGradientFrom: '#fb8c00',
+          backgroundGradientTo: '#ffa726',
           decimalPlaces: 2, // optional, defaults to 2dp
           color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
           style: {
