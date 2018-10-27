@@ -1,14 +1,12 @@
 import React, { Component } from "react";
-import { StyleSheet, Dimensions, View } from "react-native";
+import { StyleSheet, View } from "react-native";
 // import { Card, CardItem, Body, Text } from "native-base";
 import { LineChart } from "react-native-chart-kit";
 import { connect } from "react-redux";
+import { PHONE_DIMENSIONS } from "../constants";
 import _ from "lodash";
 
-const phoneDimensions = {
-  width: Dimensions.get("window").width,
-  height: Dimensions.get("window").height
-};
+
 
 const DEFAULT_GRAPH_OPERATOR_CONFIG = {
   minMonthLimit: 2,
@@ -123,21 +121,21 @@ class GraphCard extends Component {
     this.getLabels();
     return (
       <LineChart
-      // data={{
-      //   labels: ['January', 'February', 'March', 'April', 'May', 'June'],
-      //   datasets: [{
-      //     data: [
-      //       Math.random() * 100,
-      //       Math.random() * 100,
-      //       Math.random() * 100,
-      //       Math.random() * 100,
-      //       Math.random() * 100,
-      //       Math.random() * 100
-      //     ]
-      //   }]
-      // }}
-      data={this.getLabels()}
-      width={Dimensions.get('window').width} // from react-native
+      data={{
+        labels: ['January', 'February', 'March', 'April', 'May', 'June'],
+        datasets: [{
+          data: [
+            Math.random() * 100,
+            Math.random() * 100,
+            Math.random() * 100,
+            Math.random() * 100,
+            Math.random() * 100,
+            Math.random() * 100
+          ]
+        }]
+      }}
+      // data={this.getLabels()}
+      width={PHONE_DIMENSIONS.width} // from react-native
       height={220}
       chartConfig={{
         backgroundColor: '#e26a00',
@@ -149,7 +147,7 @@ class GraphCard extends Component {
           borderRadius: 16
         }
       }}
-        width={Dimensions.get('window').width} // from react-native
+        width={PHONE_DIMENSIONS.width} // from react-native
         height={220}
         chartConfig={{
           backgroundColor: '#e26a00',
@@ -172,8 +170,8 @@ class GraphCard extends Component {
 }
 const styles = StyleSheet.create({
   card: {
-    width: phoneDimensions.width,
-    height: phoneDimensions.height / 3
+    width: PHONE_DIMENSIONS.width,
+    height: PHONE_DIMENSIONS.height / 3
   }
 });
 

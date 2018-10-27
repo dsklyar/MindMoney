@@ -2,7 +2,20 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import { savePayment, formChanged, formCleared } from "../actions";
-import { Form, Item, Input, Label, Button, DatePicker, Text } from "native-base";
+import {
+  Form,
+  Item,
+  Input,
+  Label,
+  Button,
+  DatePicker,
+  Text,
+  Card,
+  CardItem,
+  Body
+} from "native-base";
+import { StyleSheet } from "react-native";
+import { PHONE_DIMENSIONS } from "../constants";
 
 // I miss TypeScript's enums, moreover I miss C-esque langs
 const formMapping = {
@@ -50,41 +63,79 @@ class PaymentForm extends Component {
   }
   render() {
     return (
-      <Form>
-        <Item floatingLabel>
-          <Label>Amount</Label>
-          <Input
-            keyboardType="phone-pad"
-            onChangeText={this.onFormChange.bind(this, formMapping.AMOUNT)}
-            value={`${this.props.amount}`}
-          />
-        </Item>
-        <Item floatingLabel>
-          <Label>Comment</Label>
-          <Input
-            onChangeText={this.onFormChange.bind(this, formMapping.COMMENT)}
-            value={this.props.comment}
-          />
-        </Item>
-        <DatePicker
-          defaultDate={new Date()}
-          locale={"en"}
-          timeZoneOffsetInMinutes={undefined}
-          modalTransparent={false}
-          animationType={"fade"}
-          androidMode={"default"}
-          placeHolderText="Select date"
-          textStyle={{ color: "green" }}
-          placeHolderTextStyle={{ color: "#d3d3d3" }}
-          onDateChange={this.onFormChange.bind(this, formMapping.DATE)}
-          />
-        <Button primary onPress={() => {this.onClickSave()}}>
-          <Text> Save </Text>
-        </Button>
-      </Form>
+      <Card style={styles.card}>
+        <CardItem>
+          <Body>
+            <Text>Add Payment</Text>
+            <Form>
+              <Item floatingLabel>
+                <Label>Amount</Label>
+                <Input
+                  style={styles.input}
+                  keyboardType="phone-pad"
+                  onChangeText={this.onFormChange.bind(
+                    this,
+                    formMapping.AMOUNT
+                  )}
+                  value={`${this.props.amount}`}
+                />
+              </Item>
+              <Item floatingLabel>
+                <Label>Comment</Label>
+                <Input
+                  style={styles.input}
+                  onChangeText={this.onFormChange.bind(
+                    this,
+                    formMapping.COMMENT
+                  )}
+                  value={this.props.comment}
+                />
+              </Item>
+              <DatePicker
+                defaultDate={new Date()}
+                locale={"en"}
+                timeZoneOffsetInMinutes={undefined}
+                modalTransparent={false}
+                animationType={"fade"}
+                androidMode={"default"}
+                placeHolderText="Select date"
+                textStyle={{ color: "green" }}
+                placeHolderTextStyle={{ color: "#d3d3d3" }}
+                onDateChange={this.onFormChange.bind(this, formMapping.DATE)}
+              />
+            </Form>
+          </Body>
+            <Button
+              style={styles.saveButton}
+              primary
+              onPress={() => {
+                this.onClickSave();
+              }}
+            >
+              <Text> Save </Text>
+            </Button>
+        </CardItem>
+      </Card>
     );
   }
 }
+
+const styles = StyleSheet.create({
+  saveButton: {
+    left: PHONE_DIMENSIONS.width - 100,
+    bottom: 0,
+    position: "absolute"
+  },
+  input: {
+    width: PHONE_DIMENSIONS.width
+  },
+  // card: {
+  //   width: PHONE_DIMENSIONS.width,
+  //   height: PHONE_DIMENSIONS.height / 3,
+  //   position: "absolute",
+  //   top: PHONE_DIMENSIONS.height / 3
+  // }
+});
 
 const mapStateToProps = state => {
   return {
@@ -109,7 +160,6 @@ const mapDispatchToProps = dispatch => {
       savePayment: savePayment,
       formChanged: formChanged,
       formCleared: formCleared
-      
     },
     dispatch
   );
