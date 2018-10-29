@@ -64,57 +64,53 @@ class PaymentForm extends Component {
   render() {
     return (
       <Card style={styles.card}>
-        <CardItem>
-          <Body>
-            <Text>Add Payment</Text>
-            <Form>
-              <Item floatingLabel>
-                <Label>Amount</Label>
-                <Input
-                  style={styles.input}
-                  keyboardType="phone-pad"
-                  onChangeText={this.onFormChange.bind(
-                    this,
-                    formMapping.AMOUNT
-                  )}
-                  value={`${this.props.amount}`}
-                />
-              </Item>
-              <Item floatingLabel>
-                <Label>Comment</Label>
-                <Input
-                  style={styles.input}
-                  onChangeText={this.onFormChange.bind(
-                    this,
-                    formMapping.COMMENT
-                  )}
-                  value={this.props.comment}
-                />
-              </Item>
-              <DatePicker
-                defaultDate={new Date()}
-                locale={"en"}
-                timeZoneOffsetInMinutes={undefined}
-                modalTransparent={false}
-                animationType={"fade"}
-                androidMode={"default"}
-                placeHolderText="Select date"
-                textStyle={{ color: "green" }}
-                placeHolderTextStyle={{ color: "#d3d3d3" }}
-                onDateChange={this.onFormChange.bind(this, formMapping.DATE)}
-              />
-            </Form>
-          </Body>
-            <Button
-              style={styles.saveButton}
-              primary
-              onPress={() => {
-                this.onClickSave();
-              }}
-            >
-              <Text> Save </Text>
-            </Button>
-        </CardItem>
+        <Form>
+          <Item floatingLabel>
+            <Label>Amount</Label>
+            <Input
+              style={styles.input}
+              keyboardType="phone-pad"
+              onChangeText={this.onFormChange.bind(
+                this,
+                formMapping.AMOUNT
+              )}
+              value={`${this.props.amount}`}
+            />
+          </Item>
+          <Item floatingLabel>
+            <Label>Comment</Label>
+            <Input
+              style={styles.input}
+              onChangeText={this.onFormChange.bind(
+                this,
+                formMapping.COMMENT
+              )}
+              value={this.props.comment}
+            />
+          </Item>
+          <DatePicker
+            style={styles.input}
+            defaultDate={new Date()}
+            locale={"en"}
+            timeZoneOffsetInMinutes={undefined}
+            modalTransparent={false}
+            animationType={"fade"}
+            androidMode={"default"}
+            placeHolderText="Select date"
+            textStyle={{ color: "green" }}
+            placeHolderTextStyle={{ color: "#d3d3d3" }}
+            onDateChange={this.onFormChange.bind(this, formMapping.DATE)}
+          />
+        </Form>
+        <Button
+          style={styles.saveButton}
+          primary
+          onPress={() => {
+            this.onClickSave();
+          }}
+        >
+          <Text> Save </Text>
+        </Button>
       </Card>
     );
   }
@@ -123,18 +119,18 @@ class PaymentForm extends Component {
 const styles = StyleSheet.create({
   saveButton: {
     left: PHONE_DIMENSIONS.width - 100,
-    bottom: 0,
+    bottom: 10,
     position: "absolute"
   },
   input: {
-    width: PHONE_DIMENSIONS.width
+    width: PHONE_DIMENSIONS.width,
+    padding: 100
   },
-  // card: {
-  //   width: PHONE_DIMENSIONS.width,
-  //   height: PHONE_DIMENSIONS.height / 3,
-  //   position: "absolute",
-  //   top: PHONE_DIMENSIONS.height / 3
-  // }
+  card: {
+    width: PHONE_DIMENSIONS.width,
+    height: PHONE_DIMENSIONS.height / 3,
+    top: PHONE_DIMENSIONS.height / 3
+  }
 });
 
 const mapStateToProps = state => {
