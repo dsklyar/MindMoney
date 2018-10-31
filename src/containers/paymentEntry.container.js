@@ -1,6 +1,10 @@
 import React, {Component} from "react";
 import { Animated, View, PanResponder } from 'react-native';
 import { PHONE_DIMENSIONS } from "../constants";
+import { deletePayment } from "../actions/index";
+import { bindActionCreators } from "redux";
+import { connect } from "react-redux";
+
 import {
   ListItem,
   Text,
@@ -12,7 +16,7 @@ import {
 } from "native-base";
 
 
-export default class PaymentEntry extends Component {
+class PaymentEntry extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -28,7 +32,8 @@ export default class PaymentEntry extends Component {
           Animated.timing(this.state.translateX, {
             toValue: dx > 0 ? screenWidth : -screenWidth,
             duration: 200
-          }).start(/*this.props.onDismiss*/);
+          // }).start(this.props.deletePayment(this.props.payment));
+          }).start()
         } else {
           Animated.spring(this.state.translateX, {
             toValue: 0,
@@ -84,3 +89,13 @@ export default class PaymentEntry extends Component {
   }
 }
 
+const mapDispatchToProps = dispatch => {
+  return bindActionCreators({
+    deletePayment: deletePayment
+  }, dispatch);
+};
+
+export default connect(
+  null,
+  mapDispatchToProps
+)(PaymentEntry);

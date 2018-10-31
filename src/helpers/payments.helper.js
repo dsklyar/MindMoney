@@ -6,6 +6,8 @@ import { monthsMapping } from "../mappings";
 export const generateMonthData = (month = monthsMapping[1].month) => {
   const data = [];
   for (let i = 1; i < 29; i++) {
+    // TODO:
+    // make a class to name properties correctlly
     data.push({
       date: new Date(getCurrentYear(), month, i),
       comment: getRandomComment(),
@@ -21,8 +23,8 @@ const getRandomComment = () => {
 };
 
 const getRandomPayment = () => {
-  console.log(getRandomInt(5000));
-  return getRandomInt(5000);
+  const sign = Math.random() < 0.5 ? -1 : 1;
+  return sign * getRandomInt(5000);
 };
 
 const getRandomInt = (max) => {

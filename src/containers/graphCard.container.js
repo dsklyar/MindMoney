@@ -26,7 +26,7 @@ class GraphOperator {
   constructor(data, config = DEFAULT_GRAPH_OPERATOR_CONFIG) {
     this.data = data;
     this.config = config;
-    this._preCalclualte();
+    // this._preCalclualte();
   }
   _preCalclualte() {
     this.rangeMode = RANGE_MODE.UNKNOWN;
@@ -95,6 +95,7 @@ class GraphOperator {
 class GraphCard extends Component {
   constructor(props) {
     super(props);
+    console.log(this.props.payments);
     this.graphOperator = new GraphOperator(this.props.payments);
   }
   // componentWillUpdate() {
