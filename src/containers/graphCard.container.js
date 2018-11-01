@@ -52,7 +52,6 @@ class GraphOperator {
     }
   }
   _isDate(date) {
-    console.log(date);
     return (new Date(date) !== "Invalid Date") && !isNaN(new Date(date));
   }
   _getDay(date) {

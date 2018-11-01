@@ -32,8 +32,7 @@ class PaymentEntry extends Component {
           Animated.timing(this.state.translateX, {
             toValue: dx > 0 ? screenWidth : -screenWidth,
             duration: 200
-          // }).start(this.props.deletePayment(this.props.payment));
-          }).start()
+          }).start(this.deletePayment());
         } else {
           Animated.spring(this.state.translateX, {
             toValue: 0,
@@ -42,6 +41,10 @@ class PaymentEntry extends Component {
         }
       }
     });
+  }
+  deletePayment() {
+    console.log(this.props.payment);
+    this.props.deletePayment({});
   }
   render() {
     return (
