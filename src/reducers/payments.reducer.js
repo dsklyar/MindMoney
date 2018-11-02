@@ -9,39 +9,54 @@ import { Actions } from "react-native-router-flux";
 import shortid from "shortid";
 import _ from "lodash";
 import datefns from "date-fns";
-import implement, { Interface, type } from "implement-js";
-
-const IPaymentBase = Interface("IPaymentBase")({
-  comment: type("string"),
-  date: type("string"),
-  amount: type("number")
-}, {
-  error: true
-});
-const IPaymentIDied = Interface("IPaymentIDied")({
-  id: type("string")
-}, {
-  extend: IPaymentBase,
-  error: true
-});
-const IPaymentMapEntry = Interface("IPaymentMapEntry")({
-  id: type("string"),
-  data: type("object"),
-  metadata: type("object")
-}, {
-  error: true
-});
 
 
 class PaymentItem {
   constructor(payment) {
-    const item = implement(IPaymentBase)(payment);
-    if (item) {
-      this.date = item.date;
-      this.comment = item.comment;
-      this.amount = item.amount;
-      this.id = shortid.generate();
-    }
+    console.log(item);
+    const item = this._checkItem(payment);
+    this.date = item.date;
+    this.comment = item.comment;
+    this.amount = item.amount;
+    this.id = shortid.generate();
+  }
+  _checkItem(item) {
+    const TYPES = {
+      STRING: {
+        name: "string"
+      },
+      NUMBER: {
+        name: "number"
+      },
+    };
+    const ITEM_PROPS = {
+      COMMENT: {
+        propertyName: "comment",
+        required: true,
+        type: TYPES.STRING
+      },
+      AMOUNT: {
+        propertyName: "amount",
+        required: true,
+        type: TYPES.NUMBER
+      },
+      DATE: {
+        propertyName: "date",
+        required: true,
+        type: TYPES.STRING
+      }
+    };
+    Object.keys(ITEM_PROPS).forEach((key, i) => {
+      if (ITEM_PROPS[key].required && _.isNil(item[ITEM_PROPS[key].propertyName])) 
+        throw new Error(`Item is missing required property ${ITEM_PROPS[key].propertyName}`);
+      if (typeof item[ITEM_PROPS[key].propertyName] !== ITEM_PROPS[key].type.name)
+        throw new Error(`Item's property ${ITEM_PROPS[key].name} is of the wrong type of ${typeof item[ITEM_PROPS[key].name]}, instead of ${ITEM_PROPS[key].type.name}`);
+    });
+    return {
+      comment: item.comment,
+      date: item.date,
+      amount: item.amount,
+    };
   }
 }
 
@@ -56,15 +71,18 @@ class PaymentsMap {
     }
   }
   addPayment(paymentItem) {
-    const item = implement(IPaymentIDied)(paymentItem);
-    if (!item) return;
+    const item = new PaymentItem(paymentItem);
+    console.log(item);
     const { day, month, year } = DateHelper.getDateIdentifiers(item.date);
     const yearID = this._verifyEntry(year, this.mapping.YEAR);
     const monthID = this._verifyEntry(month, this.mapping.MONTH, yearID);
     this.dataMap[yearID][monthID].data[item.id] = item;
   }
   addPayments(data) {
-    data.forEach((element) => this.addPayment(element));
+    data.forEach((el) => {
+      console.log(el);
+      this.addPayment(el);
+    });
     console.log("larp");
     this.print();
   }
@@ -83,7 +101,7 @@ class PaymentsMap {
   // refactor to not expect one or the other
   // refactor so that month will create year if missing
   _verifyEntry(item, type, options) {
-    if (this.mapping[type]) {
+    if (_.isNil(this.mapping[type])) {
       return (this.mapping[type][item]) ? this.mapping[type][item] : _createEntry(item, type, options);
     } else {
       throw new Error(`Cannot verify entry for ${item} type of ${type}`)
@@ -121,7 +139,7 @@ class DateHelper {
     return datefns.getMonth(this._checkDate(dateString));
   }
   static _checkDate(dateString) {
-    if (!datefns.isDate(dateString)) {
+    if (!datefns.isDate(new Date(dateString))) {
       throw new Error("String is not a date! [DateHelper]");
     }
     return new Date(dateString);
@@ -154,7 +172,7 @@ const payments = (state = [], action) => {
       // dummy data
       const payload = action.payload;
       const data = [
-        ...generateMonthData().map(el => (el = { ...el, id: shortid.generate() })),
+        ...generateMonthData(),
         ...state
       ];
       paymentsOperator.addPayments(data);

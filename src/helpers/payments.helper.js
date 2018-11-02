@@ -9,7 +9,7 @@ export const generateMonthData = (month = monthsMapping[1].month) => {
     // TODO:
     // make a class to name properties correctlly
     data.push({
-      date: new Date(getCurrentYear(), month, i),
+      date: new Date(getCurrentYear(), month, i).toString(),
       comment: getRandomComment(),
       amount: getRandomPayment()
     })
