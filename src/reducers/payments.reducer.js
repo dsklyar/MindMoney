@@ -13,7 +13,6 @@ import datefns from "date-fns";
 
 class PaymentItem {
   constructor(payment) {
-    console.log(item);
     const item = this._checkItem(payment);
     this.date = item.date;
     this.comment = item.comment;
@@ -66,17 +65,17 @@ class PaymentsMap {
     this.yearMap = {};
     this.monthMap = {};
     this.mapping = {
-      MONTH: this.monthMap,
-      YEAR: this.yearMap
+      MONTH: "monthMap",
+      YEAR: "yearMap"
     }
   }
   addPayment(paymentItem) {
     const item = new PaymentItem(paymentItem);
     console.log(item);
     const { day, month, year } = DateHelper.getDateIdentifiers(item.date);
-    const yearID = this._verifyEntry(year, this.mapping.YEAR);
-    const monthID = this._verifyEntry(month, this.mapping.MONTH, yearID);
-    this.dataMap[yearID][monthID].data[item.id] = item;
+    const yearId = this._verifyEntry(year, this.mapping.YEAR);
+    const monthId = this._verifyEntry(month, this.mapping.MONTH, { yearId });
+    this.dataMap[yearId].data[monthId].data[item.id] = item;
   }
   addPayments(data) {
     data.forEach((el) => {
@@ -85,6 +84,20 @@ class PaymentsMap {
     });
     console.log("larp");
     this.print();
+  }
+  getPayments() {
+    const years = Object.values(this.yearMap);
+    const data = years.reduce((acc, year) => {
+      Object.values(this.dataMap[year].data).forEach((month) => {
+        acc.push(...Object.values(month.data).reduce((acc, item) => {
+          acc.push(item);
+          return acc;
+        }, []));
+      });
+      return acc;
+    }, []);
+    console.log(data);
+    return data;
   }
   removePayment(payment) {
     if (this.map[payment.id]) {
@@ -97,28 +110,24 @@ class PaymentsMap {
   print() {
     console.log(this.dataMap, this.monthMap, this.yearMap);
   }
-  // TODO:
-  // refactor to not expect one or the other
-  // refactor so that month will create year if missing
   _verifyEntry(item, type, options) {
     if (_.isNil(this.mapping[type])) {
-      return (this.mapping[type][item]) ? this.mapping[type][item] : _createEntry(item, type, options);
+      return (this[type][item]) 
+        ? this[type][item] 
+        : this._createEntry(item, type, options);
     } else {
       throw new Error(`Cannot verify entry for ${item} type of ${type}`)
     }
   }
-  _createEntry(item, type, options) {
-    const struct = implement(IPaymentMapEntry)({
+  _createEntry(item, type, options = {}) {
+    const struct = {
       id: shortid.generate(),
       metadata: {},
       data: {}
-    });
-    this.mapping[type][item] = struct.id;
-    if (options.yearId) {
-      this.dataMap[options.yearId][struct.id] = struct;
-    } else {
-      this.dataMap[struct.id] = struct;
-    }
+    };
+    this[type][item] = struct.id;
+
+    (options.yearId) ? this.dataMap[options.yearId].data[struct.id] = struct : this.dataMap[struct.id] = struct;
     return struct.id;
   }
 }
@@ -156,7 +165,8 @@ const payments = (state = [], action) => {
   switch (action.type) {
     case SAVE_PAYMENT: {
       Actions.appView();
-      return [payment, ...state];
+      paymentsOperator.addPayment(data);
+      return paymentsOperator.getPayments();
     }
     case DELETE_PAYMENT: {
       const data = _.cloneDeep(state);
@@ -171,12 +181,8 @@ const payments = (state = [], action) => {
       // that genereateDummyData takes to create
       // dummy data
       const payload = action.payload;
-      const data = [
-        ...generateMonthData(),
-        ...state
-      ];
-      paymentsOperator.addPayments(data);
-      return data;
+      paymentsOperator.addPayments(generateMonthData());
+      return paymentsOperator.getPayments();
     }
     case PURGE_PAYMENTS: {
       return [];
