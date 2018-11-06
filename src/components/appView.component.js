@@ -13,6 +13,7 @@ import {
 import PaymentsList from "../containers/paymentsList.container";
 import ActionFloating from "../containers/actionFloating.container";
 import GraphCard from "../containers/graphCard.container";
+import PaymentItem from "../containers/paymentEntry.container";
 
 export default class AppView extends Component {
   render() {
@@ -32,6 +33,7 @@ export default class AppView extends Component {
         <Container>
           <GraphCard />
           <PaymentsList />
+          {/* <PaymentItem/> */}
           <ActionFloating />
         </Container>
       </Container>
